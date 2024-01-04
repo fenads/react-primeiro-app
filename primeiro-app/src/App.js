@@ -1,10 +1,9 @@
+import React from "react";
+import Rotas from './routes';
 
-function App() {
+export default function App() {
+
   return (
-    <div>
-      <h1>Meu primeiro app</h1>
-    </div>
+    <Rotas />
   );
 }
-
-export default App;
