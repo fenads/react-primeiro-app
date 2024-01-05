@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa'
-
+import { Link } from 'react-router-dom';
 //eslint-disable-next-line
 import { Container, Form, SubimitButtom, List, DeleteButton } from "./styles";
 import api from '../../services/api';
@@ -8,22 +8,26 @@ import api from '../../services/api';
 export default function Main(){
 
   const [newRepo, setNewRepo] = useState('');
-  const [repositorios, setRepositorios] = useState([]);
+  const [repositorios, setRepositorios] = useState(()=>{
+    const repoStorage = localStorage.getItem('repos');
+    return repoStorage ? JSON.parse(repoStorage) : [];
+  });
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
   //DidMount
-  useEffect(()=>{
+  /*useEffect(()=>{
     const repoStorage = localStorage.getItem('repos');
+    
     if(repoStorage){
       setRepositorios(JSON.parse(repoStorage));
     }
-    
-  },[])
+
+  },[]);*/
 
   //DidUpdate
   useEffect(()=>{
-    localStorage.setItem('repos', JSON.stringify(repositorios))
+    localStorage.setItem('repos', JSON.stringify(repositorios));
   },[repositorios]);
 
   const handleSubmit = useCallback((e)=>{
@@ -120,9 +124,9 @@ export default function Main(){
               </DeleteButton>
               {repo.name}
             </span>
-            <a href="">
+            <Link to={`/repositorio/${encodeURIComponent(repo.name)}`}>
               <FaBars size={20}/>
-            </a>
+            </Link>
           </li>
         ))}
       </List>
