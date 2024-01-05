@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa'
 
 //eslint-disable-next-line
@@ -11,6 +11,20 @@ export default function Main(){
   const [repositorios, setRepositorios] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
+
+  //DidMount
+  useEffect(()=>{
+    const repoStorage = localStorage.getItem('repos');
+    if(repoStorage){
+      setRepositorios(JSON.parse(repoStorage));
+    }
+    
+  },[])
+
+  //DidUpdate
+  useEffect(()=>{
+    localStorage.setItem('repos', JSON.stringify(repositorios))
+  },[repositorios]);
 
   const handleSubmit = useCallback((e)=>{
     e.preventDefault();
